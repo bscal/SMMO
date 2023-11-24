@@ -121,8 +121,6 @@ void JobsInitialize(u32 maxThreadCount)
 
 	SAssert(maxThreadCount > 0);
 
-	double startTime = GetTime();
-
 	maxThreadCount = Max(1u, maxThreadCount);
 
 	zpl_affinity affinity;
@@ -187,15 +185,6 @@ void JobsInitialize(u32 maxThreadCount)
 #undef handle_error_en
 #endif
 	}
-
-	double timeEnd = GetTime() - startTime;
-	const char* infoStr = TextFormat(
-		"[ Jobs ] Initialized in [%.3fms]. Cores: %u, Theads: %d. Created %u threads."
-		, timeEnd * 1000.0
-		, JobInternalState.NumCores
-		, threadCount
-		, JobInternalState.NumThreads);
-	SInfoLog(infoStr);
 	
 	SAssert(JobInternalState.NumCores > 0);
 	SAssert(JobInternalState.NumThreads > 0);

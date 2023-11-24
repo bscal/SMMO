@@ -1,4 +1,4 @@
-workspace "Kingdoms"
+workspace "SMMO"
     architecture "x64"
     --toolset "msc-ClangCL"
     toolset "msc"
@@ -9,7 +9,7 @@ workspace "Kingdoms"
         "Release"
     }
 
-    startproject "Game"
+    startproject "Server"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
@@ -27,7 +27,7 @@ newoption
     default = "opengl33"
 }
 
-include "Game/vendor/raylib_premake5.lua"
+--include "Game/vendor/raylib_premake5.lua"
 
 filter {}
 
@@ -67,9 +67,9 @@ newaction
 
 filter {}
 
-local SrcDir = "Game/src/"
+local SrcDir = "Server/src/"
 
-project "Game"
+project "Server"
     kind "ConsoleApp"
     language "C++"
     cdialect "C99"
@@ -84,9 +84,11 @@ project "Game"
         SrcDir .. "**.cpp",
         SrcDir .. "**.c",
         SrcDir .. "**.h",
-        "Game/vendor/bscal-sx/*.cpp",
-        "Game/vendor/bscal-sx/*.h",
-        "Game/vendor/flecs/flecs.c",
+        "Server/vendor/flecs/flecs.c",
+        "Server/vendor/enet/enet.h",
+        "Server/vendor/librg/librg.h",
+        "Server/vendor/cmp/cmp.c",
+        "Server/vendor/cmp/cmp.h",
     }
 
     defines
@@ -96,21 +98,14 @@ project "Game"
 
     includedirs
     {
-        "Game/src",
-        "Game/vendor",
+        "Server/src",
+        "Server/vendor",
     }
 
     libdirs
     {
-        "%{wks.location}/bin/" .. outputdir .. "/raylib/",
-        "Game/vendor/luajit/src"
-    }
-
-    links
-    {
-        "raylib",
-        "lua51",
-        "luajit",
+        "C:/Program Files/MySQL/MySQL Server 8.0/lib",
+        --"%{wks.location}/bin/" .. outputdir .. "/raylib/",
     }
 
     -- -Xclang passes to clang compiler regular -Wno doesnt work with clang-cl :)
@@ -140,12 +135,20 @@ project "Game"
         buildoptions
         {
             "-std:c++17", "-W4", "-WX", "-wd4100", "-wd4201", "-wd4127", "-wd4701", "-wd4189",
-            "-Oi", "-GR", "-GR-", "-EHs-c-", "-D_HAS_EXCEPTIONS=0"
+            "-wd4995", "-Oi", "-GR", "-GR-", "-EHs-c-", "-D_HAS_EXCEPTIONS=0"
         }
-        links { "raylib.lib" }
+        links
+        {
+            --"raylib.lib",
+            "mysqlclient"
+        }
 
     filter "system:Unix"
         defines "SCAL_PLATFORM_LINUX"
-        links { "raylib.so" }
+        links
+        {
+            --"raylib.so",
+            "libmysqlclient"
+        }
 
     filter {}

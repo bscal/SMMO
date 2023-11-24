@@ -132,7 +132,7 @@ inline void ArrayFree(SArray* sArray)
 	SAssert(sArray);
 	if (!sArray->Memory)
 	{
-		TraceLog(LOG_ERROR, "outSArray Memory is already freed!");
+		SError("outSArray Memory is already freed!");
 		return;
 	}
 	size_t size = (size_t)sArray->Capacity * sArray->Stride;

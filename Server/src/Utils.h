@@ -4,8 +4,6 @@
 
 #include <wyhash/wyhash.h>
 
-#include <raylib/src/raylib.h>
-
 template<typename T>
 _FORCE_INLINE_ u64
 Hash(T& value)
@@ -17,7 +15,7 @@ Hash(T& value)
 
 _FORCE_INLINE_ double GetMicroTime()
 {
-	return GetTime() * 1000000.0;
+	return 0 * 1000000.0;
 }
 
 _FORCE_INLINE_ constexpr int
@@ -146,27 +144,3 @@ enum STR2INT
 STR2INT Str2Int(int* out, const char* s, int base);
 
 STR2INT Str2UInt(u32* out, const char* s, int base);
-
-inline Color
-IntToColor(int colorInt)
-{
-	Color c;
-	c.r = (i8)(colorInt >> 24);
-	c.g = (i8)(colorInt >> 16);
-	c.b = (i8)(colorInt >> 8);
-	c.a = (i8)colorInt;
-	return c;
-}
-
-inline int
-ColorToInt(Color c)
-{
-	int res = 0;
-	res |= (c.r << 24);
-	res |= (c.g << 16);
-	res |= (c.b << 8);
-	res |= (c.a << 0);
-	return res;
-}
-
-

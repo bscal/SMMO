@@ -65,22 +65,6 @@ Vector2i Vec2iUnpackInt64(i64 packedI64)
     return res;
 }
 
-Vector2 Vec2iToVec2(Vector2i v)
-{
-    Vector2 res;
-    res.x = (float)v.x;
-    res.y = (float)v.y;
-    return res;
-}
-
-Vector2i Vec2ToVec2i(Vector2 v)
-{
-    Vector2i res;
-    res.x = (int)floorf(v.x);
-    res.y = (int)floorf(v.y);
-    return res;
-}
-
 Vector2i Vector2i::Add(Vector2i o) const
 {
     return { x + o.x, y + o.y };

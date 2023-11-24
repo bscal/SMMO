@@ -240,7 +240,9 @@ SAllocatorProc(GameAllocatorProc)
 
 #if SCAL_DEBUG
 	if (allocatorType != ALLOCATOR_TYPE_FREE)
+	{
 		SAssert(res);
+	}
 #endif
 
 #if TRACK_MEMORY
@@ -320,7 +322,9 @@ SAllocatorProc(MallocAllocatorProc)
 
 #if SCAL_DEBUG
 	if (allocatorType != ALLOCATOR_TYPE_FREE)
+	{
 		SAssert(res);
+	}
 #endif
 
 #if TRACK_MEMORY
@@ -367,7 +371,9 @@ SAllocatorProc(ArenaAllocatorProc)
 
 #if SCAL_DEBUG
 	if (allocatorType != ALLOCATOR_TYPE_FREE)
+	{
 		SAssert(res);
+	}
 #endif
 	return res;
 }

@@ -75,7 +75,7 @@ SRandNext(SRandom* state)
 	if (state->Seed0 == 0 && state->Seed1 == 0
 		&& state->Seed2 == 0 && state->Seed3 == 0)
 	{
-		TraceLog(LOG_WARNING, "SRandom state was uninitialized!");
+		SError("SRandom state was uninitialized!");
 	}
 	#endif
 
@@ -230,7 +230,7 @@ X128PlusInitialize(X128PlusRandom* state, uint64_t seed)
 {
 	if (!state)
 	{
-		TraceLog(LOG_ERROR, "Xoroshiro128Random state was nullptr");
+		SError("Xoroshiro128Random state was nullptr");
 		return;
 	}
 	state->Seed[0] = seed;
@@ -245,7 +245,7 @@ X128PlusNext(X128PlusRandom* state)
 	#if SCAL_DEBUG
 	if (state->Seed[0] == 0 && state->Seed[1] == 0)
 	{
-		TraceLog(LOG_WARNING, "SRandom state was uninitialized!");
+		SError("SRandom state was uninitialized!");
 	}
 	#endif
 

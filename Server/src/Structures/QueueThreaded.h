@@ -4,7 +4,6 @@
 
 #include "Core.h"
 #include "Memory.h"
-#include "Debug.h"
 
 // Single producer - multi consumer fifo queue
 template<typename T, int Capacity>
