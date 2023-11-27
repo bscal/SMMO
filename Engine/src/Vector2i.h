@@ -2,6 +2,8 @@
 
 #include "Base.h"
 
+#include <math.h>
+
 struct Vector2;
 
 struct Vector2i

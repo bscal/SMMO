@@ -2,6 +2,8 @@
 
 #include "Core.h"
 
+#include "GameState.h"
+
 struct Server
 {
 
@@ -10,7 +12,7 @@ struct Server
 int 
 ServerInitialize()
 {
-	SPrint("Testing");
+	GameInitialize();
 
 	return 0;
 }

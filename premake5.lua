@@ -67,10 +67,14 @@ newaction
 
 filter {}
 
-local SrcDir = "Server/src/"
+local EngineProjectFolder = "Engine"
+local ServerProjectFolder = "Server"
 
-project "Server"
-    kind "ConsoleApp"
+local WindowsCommonBuildOptions = { "-std:c++17", "-W4", "-WX", "-wd4100", "-wd4201", "-wd4127", "-wd4701", "-wd4189",
+"-wd4995", "-Oi", "-GR", "-GR-", "-EHs-c-", "-D_HAS_EXCEPTIONS=0" }
+
+project "Engine"
+    kind "SharedLib"
     language "C++"
     cdialect "C99"
     cppdialect "C++17"
@@ -81,25 +85,26 @@ project "Server"
 
     files
     {
-        SrcDir .. "**.cpp",
-        SrcDir .. "**.c",
-        SrcDir .. "**.h",
-        "Server/vendor/flecs/flecs.c",
-        "Server/vendor/enet/enet.h",
-        "Server/vendor/librg/librg.h",
-        "Server/vendor/cmp/cmp.c",
-        "Server/vendor/cmp/cmp.h",
+        EngineProjectFolder .. "/src/**.cpp",
+        EngineProjectFolder .. "/src/**.c",
+        EngineProjectFolder .. "/src/**.h",
+        EngineProjectFolder .. "/vendor/flecs/flecs.c",
+        EngineProjectFolder .. "/vendor/enet/enet.h",
+        EngineProjectFolder .. "/vendor/librg/librg.h",
+        EngineProjectFolder .. "/vendor/cmp/cmp.c",
+        EngineProjectFolder .. "/vendor/cmp/cmp.h",
     }
 
     defines
     {
-      --  "SCAL_BUILD_DLL"
+        "SCAL_BUILD_DLL",
+        "flecs_EXPORTS"
     }
 
     includedirs
     {
-        "Server/src",
-        "Server/vendor",
+        EngineProjectFolder .. "/src",
+        EngineProjectFolder .. "/vendor",
     }
 
     libdirs
@@ -134,8 +139,7 @@ project "Server"
         systemversion "latest"
         buildoptions
         {
-            "-std:c++17", "-W4", "-WX", "-wd4100", "-wd4201", "-wd4127", "-wd4701", "-wd4189",
-            "-wd4995", "-Oi", "-GR", "-GR-", "-EHs-c-", "-D_HAS_EXCEPTIONS=0"
+            WindowsCommonBuildOptions
         }
         links
         {
@@ -149,6 +153,99 @@ project "Server"
         {
             --"raylib.so",
             "libmysqlclient"
+        }
+
+
+    filter {}
+
+    postbuildcommands
+    {
+        ("{COPYFILE} %{wks.location}bin/" .. outputdir .. "/%{prj.name}/Engine.dll "
+            .. "%{wks.location}bin/" .. outputdir .. "/%{prj.name}/../Server/Engine.dll")
+    }
+
+project "Server"
+    kind "ConsoleApp"
+    language "C++"
+    cdialect "C99"
+    cppdialect "C++17"
+    staticruntime "off"
+
+    targetdir("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
+    objdir("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
+
+    files
+    {
+        ServerProjectFolder .. "/src/**.cpp",
+        ServerProjectFolder .. "/src/**.c",
+        ServerProjectFolder .. "/src/**.h",
+    }
+
+    defines
+    {
+      --  "SCAL_BUILD_DLL"
+    }
+
+    includedirs
+    {
+        EngineProjectFolder .. "/src",
+        EngineProjectFolder .. "/vendor",
+        ServerProjectFolder .. "/src",
+        ServerProjectFolder .. "/vendor",
+    }
+
+    libdirs
+    {
+        --"C:/Program Files/MySQL/MySQL Server 8.0/lib",
+        --"%{wks.location}/bin/" .. outputdir .. "/raylib/",
+        "%{wks.location}/bin/" .. outputdir .. "/Engine/",
+    }
+
+    links
+    {
+        "Engine"
+    }
+
+    -- -Xclang passes to clang compiler regular -Wno doesnt work with clang-cl :)
+    filter "toolset:msc-ClangCL"
+        buildoptions
+        { 
+            "-Wno-c++98-compat-pedantic", "-Wno-old-style-cast", "-Wno-extra-semi-stmt",
+            "-Xclang -Wno-missing-braces", "-Xclang -Wno-missing-field-initializers",
+            "-Wno-error=misleading-indentation", "-Xclang -Wno-unused-variable",
+            "-Wno-error=unused-command-line-argument",
+            "-Xclang -Wno-unused-but-set-variable"
+        }
+
+    filter "configurations:Debug"
+        defines "SCAL_DEBUG"
+        runtime "Debug"
+        symbols "on"
+
+    filter "configurations:Release"
+        defines "SCAL_RELEASE"
+        runtime "Release"
+        optimize "on"
+
+    filter "system:Windows"
+        defines "SCAL_PLATFORM_WINDOWS"
+        systemversion "latest"
+        buildoptions
+        {
+            WindowsCommonBuildOptions
+        }
+        links
+        {
+            --"raylib.lib",
+            --"mysqlclient"
+        }
+
+    filter "system:Unix"
+        defines "SCAL_PLATFORM_LINUX"
+        links
+        {
+            --"raylib.so",
+           -- "libmysqlclient"
         }
 
     filter {}

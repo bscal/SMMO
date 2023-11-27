@@ -30,3 +30,7 @@ global_var struct TransientGameState TransientState;
 #define DeltaTime GetFrameTime()
 
 #define GetGameState() (&State)
+
+SAPI int GameInitialize();
+SAPI void GameRun();
+SAPI void GameShutdown();
