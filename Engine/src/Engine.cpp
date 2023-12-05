@@ -5,7 +5,7 @@
 
 #include "Core.h"
 
-SAPI int EngineStartup()
+int EngineStartup()
 {
 	SInfoLog("Test");
 

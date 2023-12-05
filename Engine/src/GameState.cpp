@@ -1,6 +1,6 @@
 #include "GameState.h"
 
-SAPI int
+int
 GameInitialize()
 {
 	SPrint("Hello");

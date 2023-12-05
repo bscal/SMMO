@@ -91,7 +91,7 @@ void ShutdownMemoryTracking()
 #endif
 }
 
-internal void
+_internal void
 HandleMemoryTracking(int allocatorId, SAllocatorType allocatorType, void* oldPtr, size_t oldSize,
 					 void* newPtr, size_t newSize, const char* file, const char* function, int line)
 {

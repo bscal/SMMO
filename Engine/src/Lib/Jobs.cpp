@@ -83,7 +83,7 @@ struct InternalState
 
 //	Start working on a job queue
 //	After the job queue is finished, it can switch to an other queue and steal jobs from there
-internal void 
+_internal void 
 Work(u32 startingQueue)
 {
 	for (u32 i = 0; i < JobInternalState.NumThreads; ++i)

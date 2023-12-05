@@ -20,14 +20,14 @@ typedef uint16_t u16;
 typedef uint32_t u32;
 typedef uint64_t u64;
 
-#define internal static
+#define _internal static
 #define internal_var static
 #define global_var inline
 #define constant_var constexpr static
 #define local_persist static
 
-#define PI 3.14159265358979323846f
-constant_var float TAO = PI * 2.0f;
+//#define PI 3.14159265358979323846f
+//constant_var float TAO = PI * 2.0f;
 constant_var size_t CACHE_LINE = 64;
 constant_var size_t DEFAULT_ALIGNMENT = 16;
 
@@ -38,7 +38,7 @@ constant_var size_t DEFAULT_ALIGNMENT = 16;
 #define DebugBreak(void) __builtin_trap()
 #endif
 #else
-#define DebugBreak(void)
+
 #endif
 
 #define C_DECL_BEGIN extern "C" {
@@ -77,6 +77,16 @@ constant_var size_t DEFAULT_ALIGNMENT = 16;
 #define _NEVER_INLINE __declspec(noinline)
 #else
 #define _NEVER_INLINE 
+#endif
+#endif
+
+#ifndef _NO_VTABLE
+#if defined(__clang__) || defined(__GNUC__)
+#define _NO_VTABLE 
+#elif defined(_MSC_VER)
+#define _NO_VTABLE __declspec(novtable)
+#else
+#define _NO_VTABLE 
 #endif
 #endif
 

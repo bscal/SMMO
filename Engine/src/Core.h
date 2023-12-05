@@ -32,20 +32,20 @@ typedef Vector2i Vec2i;
 #if 1
 	#define SPrintLine() zpl_printf("\n")
 #else
-	#define SPrintPrefix(level)
+	#define SPrintLine()
 #endif
 
-#define SPrint(fmt, ...) SPrintPrefix("[Info]"), zpl_printf(fmt, __VA_ARGS__), SPrintLine()
-#define SPrintDebug(fmt, ...) SPrintPrefix("[Debug]"), zpl_printf(fmt, __VA_ARGS__), SPrintLine()
+#define SPrint(fmt, ...) SPrintPrefix("\033[0m[Info]"), zpl_printf(fmt, __VA_ARGS__), SPrintLine()
+#define SPrintDebug(fmt, ...) SPrintPrefix( "\033[0;36m[Debug]"), zpl_printf(fmt, __VA_ARGS__), SPrintLine()
 
-#define SPrintErr(fmt, ...) SPrintPrefix("[Error]"), zpl_printf_err(fmt, __VA_ARGS__), SPrintLine()
-#define SPrintWarn(fmt, ...) SPrintPrefix("[Warning]"), zpl_printf_err(fmt, __VA_ARGS__), SPrintLine()
-#define SPrintTrace(fmt, ...) SPrintPrefix("[Trace]"), zpl_printf_err(fmt, __VA_ARGS__), SPrintLine()
-#define SPrintFatal(fmt, ...) SPrintPrefix("[Fatal]"), zpl_printf_err(fmt, __VA_ARGS__), SPrintLine()
+#define SPrintErr(fmt, ...) SPrintPrefix("\033[0;31m[Error]"), zpl_printf(fmt, __VA_ARGS__), SPrintLine()
+#define SPrintWarn(fmt, ...) SPrintPrefix("\033[0;33m[Warning]"), zpl_printf(fmt, __VA_ARGS__), SPrintLine()
+#define SPrintTrace(fmt, ...) SPrintPrefix("\033[0;31m[Trace]"), zpl_printf(fmt, __VA_ARGS__), SPrintLine()
+#define SPrintFatal(fmt, ...) SPrintPrefix("\033[0;31m[Fatal]"), zpl_printf(fmt, __VA_ARGS__), SPrintLine()
 
 #if SCAL_DEBUG
-	#define SAssert(expr) if (!(expr)) { SPrintErr("Assertion Failure: %s\nMessage: % s\n  File : % s, Line : % d\n", #expr, "", __FILE__, __LINE__); DebugBreak(void); } 
-	#define SAssertMsg(expr, msg) if (!(expr)) { SPrintErr("Assertion Failure: %s\nMessage: % s\n  File : % s, Line : % d\n", #expr, msg, __FILE__, __LINE__); DebugBreak(void); }
+	#define SAssert(expr) if (!(expr)) { SPrintErr("Assertion Failure: %s\nMessage: % s\n  File : % s, Line : % d\n", #expr, "", __FILE__, __LINE__);  } 
+	#define SAssertMsg(expr, msg) if (!(expr)) { SPrintErr("Assertion Failure: %s\nMessage: % s\n  File : % s, Line : % d\n", #expr, msg, __FILE__, __LINE__); }
 	#define STraceLog(msg, ...) SPrintTrace(msg, __VA_ARGS__)
 	#define SDebugLog(msg, ...) SPrintDebug(msg, __VA_ARGS__)
 #else
@@ -61,12 +61,10 @@ typedef Vector2i Vec2i;
 
 #define SError(msg, ...) \
 	SPrintErr(msg, __VA_ARGS__); \
-	DebugBreak(void) \
 
 #define SFatal(msg, ...) \
 	SPrintFatal(msg, __VA_ARGS__); \
 	SPrintFatal("Fatal error detected, program crashed! File: %s, Line: %s", __FILE__, __LINE__); \
-	DebugBreak(void) \
 
 #else
 #define SInfoLog(msg, ... )

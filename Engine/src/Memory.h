@@ -4,6 +4,18 @@
 
 #define TRACK_MEMORY 1
 
+struct _NO_VTABLE Allocator
+{
+	virtual void* Alloc(size_t size) = 0;
+	virtual void Free(void* ptr) = 0;
+};
+
+struct ArenaAllocator final : public Allocator
+{
+	void* Alloc(size_t size) override final { return 0; }
+	void Free(void* ptr) override final { }
+};
+
 enum class SAllocatorId : int
 {
 	General = 0,

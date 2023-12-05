@@ -71,7 +71,7 @@ local EngineProjectFolder = "Engine"
 local ServerProjectFolder = "Server"
 
 local WindowsCommonBuildOptions = { "-std:c++17", "-W4", "-WX", "-wd4100", "-wd4201", "-wd4127", "-wd4701", "-wd4189",
-"-wd4995", "-Oi", "-GR", "-GR-", "-EHs-c-", "-D_HAS_EXCEPTIONS=0" }
+"-wd4995", "-wd4244", "-Oi", "-GR", "-GR-", "-EHs-c-", "-D_HAS_EXCEPTIONS=0" }
 
 project "Engine"
     kind "SharedLib"
@@ -98,7 +98,8 @@ project "Engine"
     defines
     {
         "SCAL_BUILD_DLL",
-        "flecs_EXPORTS"
+        "flecs_EXPORTS",
+        "OGREMAIN_STATIC_DEFINE"
     }
 
     includedirs
@@ -111,6 +112,14 @@ project "Engine"
     {
         "C:/Program Files/MySQL/MySQL Server 8.0/lib",
         --"%{wks.location}/bin/" .. outputdir .. "/raylib/",
+        "D:/dev-libs/ogre/build/lib/RelWithDebInfo"
+    }
+
+    links
+    {
+        "OgreMain",
+        "OgreBites",
+        "OgreRTShaderSystem",
     }
 
     -- -Xclang passes to clang compiler regular -Wno doesnt work with clang-cl :)
@@ -183,6 +192,7 @@ project "Server"
 
     defines
     {
+        "OGREMAIN_STATIC_DEFINE",
       --  "SCAL_BUILD_DLL"
     }
 
@@ -196,14 +206,17 @@ project "Server"
 
     libdirs
     {
-        --"C:/Program Files/MySQL/MySQL Server 8.0/lib",
+        "C:/Program Files/MySQL/MySQL Server 8.0/lib",
         --"%{wks.location}/bin/" .. outputdir .. "/raylib/",
-        "%{wks.location}/bin/" .. outputdir .. "/Engine/",
+        "D:/dev-libs/ogre/build/lib/RelWithDebInfo"
     }
 
     links
     {
-        "Engine"
+        "Engine",
+        "OgreMain",
+        "OgreBites",
+        "OgreRTShaderSystem",
     }
 
     -- -Xclang passes to clang compiler regular -Wno doesnt work with clang-cl :)

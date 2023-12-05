@@ -2,4 +2,4 @@
 
 #include "Base.h"
 
-SAPI int EngineStartup();
+int EngineStartup();

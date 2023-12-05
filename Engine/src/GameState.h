@@ -11,6 +11,8 @@
 #include "Lib/GeneralAllocator.h"
 #include "Lib/Jobs.h"
 
+#include "ogre/sdk/include/OGRE/Ogre.h"
+
 struct GameState
 {
 	Arena GameArena;
@@ -31,6 +33,6 @@ global_var struct TransientGameState TransientState;
 
 #define GetGameState() (&State)
 
-SAPI int GameInitialize();
-SAPI void GameRun();
-SAPI void GameShutdown();
+int GameInitialize();
+void GameRun();
+void GameShutdown();

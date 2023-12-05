@@ -79,7 +79,7 @@ struct X128PlusRandom
 
 void X128PlusInitialize(X128PlusRandom* state, uint64_t seed);
 
-internal uint64_t X128PlusNext(X128PlusRandom* state);
+static uint64_t X128PlusNext(X128PlusRandom* state);
 
 /// <summary>
 /// Value between 0-1

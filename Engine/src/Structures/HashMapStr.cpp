@@ -16,7 +16,7 @@ struct HashMapStrSetResults
 	bool Contained;
 };
 
-internal HashMapStrSetResults
+_internal HashMapStrSetResults
 HashMapStrSet_Internal(HashMapStr* map, const String key, const void* value);
 
 void 
@@ -217,7 +217,7 @@ bool HashMapStrRemove(HashMapStr* map, const String key)
 	return false;
 }
 
-internal HashMapStrSetResults
+_internal HashMapStrSetResults
 HashMapStrSet_Internal(HashMapStr* map, const String key, const void* value)
 {
 	SAssert(map);

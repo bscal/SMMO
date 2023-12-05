@@ -18,7 +18,7 @@ SRandom* GetThreadSRandom()
 	return &GlobalRandom;
 }
 
-internal uint64_t SplitMixNext64(uint64_t val)
+_internal uint64_t SplitMixNext64(uint64_t val)
 {
 	uint64_t z = val + 0x9e3779b97f4a7c15;
 	z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
@@ -26,22 +26,22 @@ internal uint64_t SplitMixNext64(uint64_t val)
 	return z ^ (z >> 31);
 }
 
-internal constexpr float FloatFromBits(uint32_t i)
+_internal constexpr float FloatFromBits(uint32_t i)
 {
 	return (i >> 8) * 0x1.0p-24f;
 }
 
-internal constexpr double DoubleFromBits(uint64_t i)
+_internal constexpr double DoubleFromBits(uint64_t i)
 {
 	return (i >> 11) * 0x1.0p-53;
 }
 
-internal constexpr uint64_t Rotl(const uint64_t x, int k)
+_internal constexpr uint64_t Rotl(const uint64_t x, int k)
 {
 	return (x << k) | (x >> (64 - k));
 }
 
-internal constexpr uint64_t Rotl32(const uint32_t x, int k)
+_internal constexpr uint64_t Rotl32(const uint32_t x, int k)
 {
 	return (x << k) | (x >> (32 - k));
 }
@@ -237,7 +237,7 @@ X128PlusInitialize(X128PlusRandom* state, uint64_t seed)
 	state->Seed[1] = SplitMixNext64(seed);
 }
 
-internal uint64_t 
+_internal uint64_t 
 X128PlusNext(X128PlusRandom* state)
 {
 	SAssert(state);

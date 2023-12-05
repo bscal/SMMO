@@ -18,11 +18,11 @@ struct HashMapSetResults
     bool Contained;
 };
 
-internal HashMapSetResults
+_internal HashMapSetResults
 HashMapSet_Internal(HashMap* map, u64, const void* value);
 
 // Only use for capacity that are powers of 2
-internal u64
+_internal u64
 HashMapHashKey(u64 key, u32 capacity)
 {
 	SAssert(capacity != 0);
@@ -229,7 +229,7 @@ void HashMapForEach(HashMap* map, void(*Fn)(u64, void*, void*), void* stackMemor
 	}
 }
 
-internal HashMapSetResults
+_internal HashMapSetResults
 HashMapSet_Internal(HashMap* map, u64 key, const void* value)
 {
 	SAssert(map);

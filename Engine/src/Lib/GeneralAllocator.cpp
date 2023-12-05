@@ -15,7 +15,7 @@ static_assert(AlignPowTwo64Ceil(AlignSize(1200, GENERALPURPOSE_BUCKET_SIZES[0]))
 static_assert(ArrayLength(GENERALPURPOSE_BUCKET_SIZES) == GENERALPURPOSE_BUCKET_SIZE, "GENERALPURPOSE_BUCKET_SIZES count is not FREELIST_BUCKET_SIZE");
 
 // Power of 2 to array index
-internal _FORCE_INLINE_
+_internal _FORCE_INLINE_
 u32 ConvertAllocSizeToIndex(size_t allocSize)
 {
 	SAssert(allocSize >= GENERALPURPOSE_BUCKET_SIZES[0]);
@@ -42,7 +42,7 @@ u32 ConvertAllocSizeToIndex(size_t allocSize)
 // 65536, 32768 16384, 8192 4096 2048 1024
 // 256, 512, 1024, 2048
 
-internal MemNode*
+_internal MemNode*
 SplitMemNode(MemNode* node, size_t bytes)
 {
 	uintptr_t n = (uintptr_t)node;
@@ -53,7 +53,7 @@ SplitMemNode(MemNode* node, size_t bytes)
 	return r;
 }
 
-internal void
+_internal void
 InsertMemNodeBefore(AllocList* list, MemNode* insert, MemNode* curr)
 {
 	insert->Next = curr;
@@ -68,7 +68,7 @@ InsertMemNodeBefore(AllocList* list, MemNode* insert, MemNode* curr)
 	curr->Prev = insert;
 }
 
-internal MemNode*
+_internal MemNode*
 RemoveMemNode(AllocList* list, MemNode* node)
 {
 	if (node->Prev != nullptr) node->Prev->Next = node->Next;
@@ -92,7 +92,7 @@ RemoveMemNode(AllocList* list, MemNode* node)
 	return node;
 }
 
-internal MemNode*
+_internal MemNode*
 FindMemNode(AllocList* list, size_t bytes)
 {
 	for (MemNode* node = list->Head; node != nullptr; node = node->Next)
@@ -111,7 +111,7 @@ FindMemNode(AllocList* list, size_t bytes)
 	return nullptr;
 }
 
-internal void
+_internal void
 InsertMemNode(GeneralPurposeAllocator* freelist, AllocList* list, MemNode* node, bool is_bucket)
 {
 	if (list->Head == nullptr)
